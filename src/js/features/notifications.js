@@ -1,0 +1,1 @@
+export const notifyDue=tasks=>{const soon=tasks.find(t=>t.status!=='done'&&t.deadline&&new Date(t.deadline)-Date.now()<86400000&&new Date(t.deadline)>Date.now());if(soon&&Notification?.permission==='granted')new Notification('Task due soon',{body:soon.title});};export const requestNotifications=()=>Notification?.requestPermission?.();

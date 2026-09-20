@@ -1,0 +1,2 @@
+export const createTask=(data={})=>({id:data.id||crypto.randomUUID(),title:(data.title||'Untitled task').trim(),description:data.description||'',status:data.status||'todo',priority:data.priority||'medium',deadline:data.deadline||'',tags:Array.isArray(data.tags)?data.tags:[],color:data.color||'#6d5dfc',subtasks:Array.isArray(data.subtasks)?data.subtasks:[],recurrence:data.recurrence||null,createdAt:data.createdAt||new Date().toISOString(),order:data.order??Date.now()});
+export const isDone=t=>t.status==='done';
