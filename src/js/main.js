@@ -203,6 +203,8 @@ document.addEventListener("click", (e) => {
       removeTask(id, a.closest(".task-card"));
     if (act === "toggle") {
       const t = store.get().tasks.find((t) => t.id === id);
+      const card = a.closest(".task-card");
+      card?.classList.toggle("is-completed", t?.status !== "done");
       if (t?.recurrence && t.status !== "done")
         store.update(id, {
           status: "todo",

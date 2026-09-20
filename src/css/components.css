@@ -9,15 +9,14 @@
 .task-card {
   position: relative;
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr) auto;
+  grid-template-columns: 24px 1fr auto;
   gap: 16px;
   align-items: start;
   min-width: 0;
-  padding: 1rem;
+  padding: 16px;
   background: var(--card-surface);
   border: 1px solid var(--line);
-  border-left: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 12px;
   transition: background-color var(--motion), border-color var(--motion),
     box-shadow var(--motion), opacity var(--motion), transform var(--motion);
   box-shadow: var(--card-shadow);
@@ -39,12 +38,42 @@
   box-shadow: var(--shadow-md);
 }
 
-.task-card > :nth-child(2) {
-  min-width: 0;
+.task-card__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
 }
 
-.task-card.done > :nth-child(2),
-.task-card.done .task-menu {
+.task-card__content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-card__title {
+  min-width: 0;
+  font-weight: 600;
+  transition: opacity var(--motion), color var(--motion);
+}
+
+.task-card__actions {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.task-card.is-completed .task-card__title {
+  color: var(--muted);
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.task-card.is-completed .task-card__content {
   opacity: 0.6;
 }
 
@@ -94,7 +123,7 @@
   transition: width var(--duration-slow) var(--ease-emphasis);
 }
 
-.task-card.done .task-title::after {
+.task-card.is-completed .task-title::after {
   width: 100%;
 }
 
