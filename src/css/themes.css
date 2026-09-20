@@ -18,6 +18,12 @@
   --overlay: rgb(32 33 42 / 40%);
   --notification: #292b38;
   --notification-action: #454856;
+  --rail-text: #e7fffb;
+  --rail-mark: #ffffff;
+  --rail-active: #ffffff;
+  --rail-highlight: rgb(255 255 255 / 16%);
+  --shadow-rail: 6px 0 22px rgb(7 92 91 / 16%);
+  --shadow-sm: 0 5px 16px rgb(28 55 55 / 9%);
 }
 
 :root[data-theme="dark"] {
@@ -42,6 +48,12 @@
   --calendar-day: #a1a1aa;
   --calendar-grid: rgb(255 255 255 / 8%);
   --pill-text: #f4f4f5;
+  --rail-text: #e9fffb;
+  --rail-mark: #ffffff;
+  --rail-active: #ffffff;
+  --rail-highlight: rgb(255 255 255 / 18%);
+  --shadow-rail: 6px 0 22px rgb(0 0 0 / 22%);
+  --shadow-sm: 0 5px 16px rgb(0 0 0 / 20%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,6 +80,12 @@
     --calendar-day: #a1a1aa;
     --calendar-grid: rgb(255 255 255 / 8%);
     --pill-text: #f4f4f5;
+    --rail-text: #e9fffb;
+    --rail-mark: #ffffff;
+    --rail-active: #ffffff;
+    --rail-highlight: rgb(255 255 255 / 18%);
+    --shadow-rail: 6px 0 22px rgb(0 0 0 / 22%);
+    --shadow-sm: 0 5px 16px rgb(0 0 0 / 20%);
   }
 }
 
