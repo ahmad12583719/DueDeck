@@ -15,13 +15,7 @@
   --overlay: rgb(32 33 42 / 40%);
   --notification: #292b38;
   --notification-action: #454856;
-  --rail-text: #4b5563;
-  --rail-mark: #111827;
-  --rail-active: var(--accent);
-  --rail-highlight: var(--accent-soft);
-  --rail-border: #e5e7eb;
   --timeline-line: rgb(17 24 39 / 10%);
-  --shadow-rail: 2px 0 10px rgb(15 23 42 / 5%);
   --card-shadow: 0 8px 24px rgb(15 23 42 / 7%);
 }
 
@@ -44,13 +38,7 @@
   --calendar-day: #a1a1aa;
   --calendar-grid: rgb(255 255 255 / 8%);
   --pill-text: #f4f4f5;
-  --rail-text: #d4d4d8;
-  --rail-mark: #f4f4f5;
-  --rail-active: var(--accent-strong);
-  --rail-highlight: rgb(167 139 250 / 15%);
-  --rail-border: rgb(255 255 255 / 10%);
   --timeline-line: rgb(255 255 255 / 10%);
-  --shadow-rail: 2px 0 10px rgb(0 0 0 / 20%);
   --card-shadow: 0 8px 24px rgb(0 0 0 / 20%);
 }
 
@@ -75,13 +63,7 @@
     --calendar-day: #a1a1aa;
     --calendar-grid: rgb(255 255 255 / 8%);
     --pill-text: #f4f4f5;
-    --rail-text: #d4d4d8;
-    --rail-mark: #f4f4f5;
-    --rail-active: var(--accent-strong);
-    --rail-highlight: rgb(167 139 250 / 15%);
-    --rail-border: rgb(255 255 255 / 10%);
     --timeline-line: rgb(255 255 255 / 10%);
-    --shadow-rail: 2px 0 10px rgb(0 0 0 / 20%);
     --card-shadow: 0 8px 24px rgb(0 0 0 / 20%);
   }
 }

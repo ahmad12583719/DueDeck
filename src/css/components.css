@@ -9,9 +9,10 @@
 .task-card {
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1.15rem minmax(0, 1fr) auto;
   gap: 0.75rem;
   align-items: start;
+  min-width: 0;
   padding: 1rem;
   background: var(--card-surface);
   border: 1px solid var(--line);
@@ -38,9 +39,13 @@
   box-shadow: var(--shadow-md);
 }
 
-.task-card.done {
-  opacity: 0.62;
-  transition: opacity var(--duration-slow) var(--ease-standard);
+.task-card > :nth-child(2) {
+  min-width: 0;
+}
+
+.task-card.done > :nth-child(2),
+.task-card.done .task-menu {
+  opacity: 0.6;
 }
 
 .task-card-removing {
