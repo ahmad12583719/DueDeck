@@ -1,79 +1,148 @@
-# DueDeck Task Manager
+# DueDeck
 
-## 1. Overview
+**Your deadlines, all in one deck.**
 
-DueDeck is a dependency-free task manager for keeping deadlines, notes, subtasks, and recurring work in one place. It is built with native ES modules, works without a build step, and uses the exact tagline: **Your deadlines, all in one deck.**
+DueDeck is a private, offline-first task manager for organizing deadlines, recurring work, notes, images, subtasks, and calendar planning in one responsive browser app. It uses native ES modules and browser storage, so there is no framework, build step, or external service.
 
-## 2. Features
+Built by Muhammad Ahmad Raza.
 
-- Create, edit, complete, delete, reorder, and clear tasks.
-- Set deadlines, priorities, tags, colors, descriptions, images, subtasks, and daily/weekly/monthly recurrence.
-- Search and filter by status, deadline, or tag; sort by deadline, priority, or creation date.
-- Review a month calendar and a today-only completion summary.
-- Receive due, 10-minute, and one-hour notifications with snooze and reschedule actions.
-- Import and export a complete JSON backup.
-- Use automatic, light, or dark themes; all task data remains in the browser.
+## Features
 
-## 3. Run locally
+- Create, edit, complete, delete, clear, and drag-and-drop reorder tasks.
+- Persist tasks, settings, notification state, tags, and subtasks in versioned `localStorage`.
+- Seed three example tasks on the first load when no saved data exists.
+- Set deadlines with one-hour, ten-minute, and due-time browser notifications.
+- Snooze a notification for ten minutes or reschedule its deadline.
+- Switch between a focused list view and a wider month calendar.
+- Navigate calendar months and preview deadline tasks on calendar cells.
+- Add descriptions, image URLs, and local images stored as base64 data.
+- Add, complete, and edit subtasks/checklists inside task cards.
+- Repeat tasks daily, weekly, or monthly.
+- Add color-coded tags and filter by tag.
+- Search by task text, descriptions, or tags.
+- Filter by status and overdue, today, or this-week deadlines.
+- Review a today-only completion progress summary.
+- Export and import complete task data as JSON.
+- Use automatic, light, or dark themes with a manual override.
+- Work responsively from 360px mobile layouts through wide calendar screens.
 
-No packages or build tools are required. From the repository directory, start any static HTTP server. Python is available on most development machines:
+## Screenshots
 
-```bash
-python3 -m http.server 8000
-```
+![DueDeck screenshot](./docs/screenshot.png)
 
-Open <http://localhost:8000> in a current browser. Serving the files over HTTP is required for ES modules, service workers, and notification behavior. Stop the server with `Ctrl+C`.
+Add a screenshot to `docs/screenshot.png` when one is available.
 
-## 4. Bookmark the app
+## Tech stack
 
-While DueDeck is open at `http://localhost:8000`, press `Ctrl+D` (Windows/Linux) or `Command+D` (macOS), edit the bookmark name if desired, and save it. For a deployed copy, bookmark its GitHub Pages URL instead. A bookmark to a local server works only while that server is running.
+- Vanilla HTML
+- CSS
+- JavaScript with native ES modules
+- Browser APIs: `localStorage`, `Notification`, `FileReader`, service workers, and drag-and-drop
 
-## 5. Deploy to GitHub Pages
+There are no frameworks, external CDNs, runtime dependencies, or build steps.
 
-1. Push the repository to GitHub.
-2. Open the repository and choose **Settings**.
-3. Select **Pages** under **Code and automation**.
-4. Set **Source** to **Deploy from a branch**.
-5. Choose the `main` branch and `/ (root)`, then select **Save**.
-6. Wait for GitHub to publish the site, then open the URL shown under **Settings → Pages**.
-
-The app has no build command, so the repository root can be published directly. If the repository is renamed, keep the relative script, stylesheet, and `duedeck-sw.js` paths intact.
-
-## 6. Clone
-
-```bash
-git clone https://github.com/ahmad12583719/DueDeck.git
-cd DueDeck
-```
-
-## 7. Project tree
+## Project structure
 
 ```text
 DueDeck/
-├── index.html                 # Application shell and task dialog
-├── duedeck-sw.js              # Notification click handler
-├── LICENSE
-├── README.md
+├── index.html                 # Semantic application shell and task dialog
+├── duedeck-sw.js              # Notification action service worker
+├── README.md                 # Project documentation
+├── LICENSE                   # MIT license
+├── .gitignore                # Local and generated files to ignore
 ├── src/
-│   ├── assets/icons/          # Static icon assets
-│   ├── css/                   # Base, layout, component, and theme styles
+│   ├── assets/icons/          # Reserved static icon directory
+│   ├── css/
+│   │   ├── base.css           # Reset, typography, shared component primitives
+│   │   ├── themes.css         # Light, dark, and system color tokens
+│   │   ├── layout.css         # Responsive page layout
+│   │   └── components.css     # Tasks, calendar, modal, and control styling
 │   └── js/
-│       ├── core/              # State, storage, and events
-│       ├── features/          # Search, calendar, notifications, themes, import/export
-│       ├── models/            # Task, tag, subtask, and recurrence models
-│       ├── ui/                # List, calendar, progress, and drag/drop rendering
-│       └── main.js            # Application wiring and event listeners
-└── .gitignore
+│       ├── main.js            # Application entry point and event wiring
+│       ├── core/              # State, versioned storage, and pub/sub events
+│       ├── models/            # Pure task, tag, subtask, and recurrence models
+│       ├── features/          # Search, calendar, notifications, themes, and data features
+│       └── ui/                # DOM rendering and drag-and-drop bindings
+└── docs/                      # Optional screenshots for documentation
 ```
 
-## 8. Data and privacy
+## Getting started
 
-Tasks are stored locally under versioned `duedeck.v1`, `duedeck.settings.v1`, and `duedeck.notifications.v1` keys. DueDeck does not send task content to a server. Export a JSON backup before clearing browser data or changing profiles.
+### Prerequisites
 
-## 9. Browser support
+1. A current Chrome, Edge, Firefox, or Safari browser.
+2. Git.
+3. Either VS Code with the Live Server extension or Node.js.
 
-Use a current browser with ES modules, `localStorage`, `<dialog>`, drag-and-drop, service workers, and the Notification API. Notifications are delivered while the page is open; the scheduler checks on load and periodically while open.
+### Clone the repository
 
-## 10. License
+```bash
+git clone https://github.com/MuhammadAhmadRaza/due-deck.git
+cd due-deck
+```
 
-MIT. See [`LICENSE`](LICENSE).
+### Run it locally
+
+ES modules and service workers do not work reliably when `index.html` is opened directly through `file://`. Use a local HTTP server.
+
+**Option A — VS Code Live Server**
+
+1. Open the project folder in VS Code.
+2. Right-click `index.html`.
+3. Choose **Open with Live Server**.
+4. Open the local URL shown by VS Code.
+
+**Option B — Node.js**
+
+```bash
+npx serve
+```
+
+Open the local URL printed by `npx serve`.
+
+### First-time setup in the app
+
+1. Open DueDeck through the local server.
+2. Allow notifications when the browser asks. This is needed for deadline reminders.
+3. Confirm that three example tasks appear on the first load.
+4. Export a backup before clearing browser data or changing browser profiles.
+
+## Using DueDeck
+
+1. **Add a task and deadline:** choose **New task**, enter a title, select a date and time, and save.
+2. **Add details:** enter a description, paste an image URL, or select a local image file. Add comma-separated subtasks and tags.
+3. **Switch views:** use **List** for focused work or **Calendar** to review scheduled tasks by month.
+4. **Repeat a task:** choose daily, weekly, or monthly recurrence in the task dialog.
+5. **Search and filter:** use the search field, status filter, deadline filter, and tag buttons.
+6. **Reorder tasks:** drag a task card over another task card in list view.
+7. **Back up data:** choose **Export** to download JSON, or **Import** to restore a JSON backup.
+8. **Change appearance:** use the theme control to cycle between light, dark, and automatic system themes.
+
+## Bookmarking it for daily use
+
+1. **Chrome / Edge:** open the live URL, click the star in the address bar, name it **DueDeck**, choose **Bookmarks Bar**, and click **Save**.
+2. **Firefox:** open the live URL, click the star, name it **DueDeck**, choose **Toolbar**, and click **Save**.
+3. **Safari:** open the live URL, press `Cmd + D`, name it **DueDeck**, choose **Favorites**, and click **Add**.
+4. If needed, open the browser's bookmark manager and move DueDeck to the bookmarks bar.
+5. For automatic access, set the live URL as the browser homepage, add it as a pinned tab, or configure it to open at startup.
+
+## Deploying to GitHub Pages
+
+1. Push your latest changes to the `main` branch.
+2. Open the repository on GitHub and choose **Settings**.
+3. Select **Pages** under **Code and automation**.
+4. Under **Source**, choose **Deploy from a branch**.
+5. Select the `main` branch and `/ (root)` folder, then choose **Save**.
+6. Wait about one minute for the deployment.
+7. Open `https://MuhammadAhmadRaza.github.io/due-deck/`.
+
+## Roadmap
+
+- Optional task sharing and collaboration.
+- More flexible recurring schedules and custom notification times.
+- Keyboard shortcuts and richer calendar interactions.
+- Optional encrypted export files.
+
+## License
+
+MIT, © 2026 Muhammad Ahmad Raza. See [`LICENSE`](LICENSE).
