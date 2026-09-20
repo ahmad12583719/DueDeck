@@ -156,7 +156,7 @@ textarea {
   flex-direction: column;
   gap: 1.4rem;
   padding: 1.25rem;
-  background: var(--surface);
+  background: var(--sidebar-surface);
   border-right: 1px solid var(--line);
 }
 
