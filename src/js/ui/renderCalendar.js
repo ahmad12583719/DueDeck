@@ -31,7 +31,7 @@ export const renderCalendar = (root, tasks, date, onMonth) => {
         if (b.dataset.calendar === "prev") next.setMonth(next.getMonth() - 1);
         if (b.dataset.calendar === "next") next.setMonth(next.getMonth() + 1);
         if (b.dataset.calendar === "today") return onMonth(new Date());
-        onMonth(next);
+        onMonth(next, b.dataset.calendar === "prev" ? "reverse" : "forward");
       }),
   );
 };

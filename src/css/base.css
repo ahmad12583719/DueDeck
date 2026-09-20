@@ -410,4 +410,13 @@ dialog[open]::backdrop {
     scroll-behavior: auto !important;
     transition-duration: 1ms !important;
   }
+
+  .task-card-removing,
+  #app-view.view-switching,
+  #app-view.view-switching-reverse,
+  #app-view.calendar-switching,
+  #app-view.calendar-switching-reverse,
+  .theme-toggle-icon {
+    animation: none !important;
+  }
 }

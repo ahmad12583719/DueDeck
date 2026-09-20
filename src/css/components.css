@@ -32,6 +32,35 @@
   transition: opacity var(--duration-slow) var(--ease-standard);
 }
 
+.task-card-removing {
+  overflow: hidden;
+  pointer-events: none;
+  animation: task-card-remove 260ms var(--ease-standard) both;
+}
+
+#app-view.view-switching,
+#app-view.view-switching-reverse {
+  animation: view-switch 240ms var(--ease-emphasis) both;
+}
+
+#app-view.view-switching-reverse {
+  animation-name: view-switch-reverse;
+}
+
+#app-view.calendar-switching,
+#app-view.calendar-switching-reverse {
+  animation: calendar-switch 240ms var(--ease-emphasis) both;
+}
+
+#app-view.calendar-switching-reverse {
+  animation-name: calendar-switch-reverse;
+}
+
+.theme-toggle-icon {
+  animation: theme-icon 260ms var(--ease-emphasis) both;
+  transform-origin: center;
+}
+
 .task-title {
   position: relative;
   width: fit-content;
@@ -330,6 +359,75 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes task-card-remove {
+  from {
+    opacity: 1;
+    max-height: 1000px;
+  }
+  to {
+    opacity: 0;
+    max-height: 0;
+    padding-block: 0;
+    border-width: 0;
+    transform: translateX(-0.75rem) scale(0.98);
+  }
+}
+
+@keyframes view-switch {
+  from {
+    opacity: 0;
+    transform: translateX(0.7rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes view-switch-reverse {
+  from {
+    opacity: 0;
+    transform: translateX(-0.7rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes calendar-switch {
+  from {
+    opacity: 0;
+    transform: translateX(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes calendar-switch-reverse {
+  from {
+    opacity: 0;
+    transform: translateX(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes theme-icon {
+  from {
+    opacity: 0.45;
+    transform: rotate(-18deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0);
   }
 }
 

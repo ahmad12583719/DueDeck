@@ -19,6 +19,12 @@ import {
 } from "./features/notifications.js";
 import { nextOccurrence } from "./models/recurrence.js";
 import { imageDataUrl } from "./features/richText.js";
+import {
+  animateCalendar,
+  animateView,
+  removeTaskWithAnimation,
+  reducedMotion,
+} from "./ui/animations.js";
 
 // Constants and state
 const download = (name, text) => {
@@ -33,6 +39,8 @@ const download = (name, text) => {
 const $ = (s) => document.querySelector(s),
   dialog = $("#task-dialog");
 let permissionAsked = false;
+let previousView;
+let calendarDirection;
 
 // Helpers
 const toast = (m) => {
@@ -65,13 +73,15 @@ function tags() {
 function render() {
   const s = store.get(),
     list = filteredTasks(s.tasks, s.filters, s.sort);
+  const viewChanged = previousView && previousView !== s.view;
   document.documentElement.dataset.theme = resolvedTheme(s.theme);
   renderProgress(s.tasks);
   tags();
   if (s.view === "calendar")
-    renderCalendar($("#app-view"), s.tasks, s.calendarDate, (d) =>
-      store.setCalendarDate(d),
-    );
+    renderCalendar($("#app-view"), s.tasks, s.calendarDate, (d, direction) => {
+      calendarDirection = direction;
+      store.setCalendarDate(d);
+    });
   else {
     renderList($("#app-view"), list);
     enableDragDrop($("#app-view"), (from, to) => store.reorder(from, to));
@@ -86,6 +96,12 @@ function render() {
     .querySelectorAll(".nav")
     .forEach((x) => x.classList.toggle("active", x.dataset.view === s.view));
   $("#sort").disabled = s.view === "calendar";
+  if (viewChanged) animateView($("#app-view"), s.view === "calendar" ? "forward" : "reverse");
+  if (s.view === "calendar" && calendarDirection) {
+    animateCalendar($("#app-view"), calendarDirection);
+    calendarDirection = undefined;
+  }
+  previousView = s.view;
 }
 function openTask(t) {
   fillForm(t);
@@ -141,7 +157,17 @@ function notify() {
 function cycleTheme() {
   const v = store.get().theme;
   store.setTheme(v === "auto" ? "light" : v === "light" ? "dark" : "auto");
+  const icon = document.querySelector('[data-action="toggle-theme"] svg');
+  if (icon && !reducedMotion()) {
+    icon.classList.remove("theme-toggle-icon");
+    void icon.offsetWidth;
+    icon.classList.add("theme-toggle-icon");
+  }
   toast(`Theme: ${store.get().theme}`);
+}
+
+function removeTask(id, card) {
+  removeTaskWithAnimation(card, () => store.remove(id));
 }
 
 // Event listeners
@@ -153,7 +179,8 @@ document.addEventListener("click", (e) => {
     askPermission();
     if (act === "new-task") openTask();
     if (act === "edit") openTask(store.get().tasks.find((t) => t.id === id));
-    if (act === "delete" && confirm("Delete this task?")) store.remove(id);
+    if (act === "delete" && confirm("Delete this task?"))
+      removeTask(id, a.closest(".task-card"));
     if (act === "toggle") {
       const t = store.get().tasks.find((t) => t.id === id);
       if (t?.recurrence && t.status !== "done")
@@ -192,10 +219,15 @@ document.addEventListener("click", (e) => {
         ),
       );
     if (act === "clear-completed") {
-      store
-        .get()
-        .tasks.filter((t) => t.status === "done")
-        .forEach((t) => store.remove(t.id));
+      const completed = store.get().tasks.filter((t) => t.status === "done");
+      const cards = completed
+        .map((t) => $("#app-view").querySelector(`[data-id="${t.id}"]`))
+        .filter(Boolean);
+      if (reducedMotion()) completed.forEach((t) => store.remove(t.id));
+      else {
+        cards.forEach((card) => card.classList.add("task-card-removing"));
+        setTimeout(() => completed.forEach((t) => store.remove(t.id)), 260);
+      }
       toast("Completed tasks cleared");
     }
   }
