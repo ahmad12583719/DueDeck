@@ -1,5 +1,305 @@
-.task-list { display: grid; gap: .75rem; width: min(100%, 480px); margin: 0 auto; } .task-card { display: grid; grid-template-columns: auto 1fr auto; gap: .75rem; align-items: start; padding: 1rem; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--task-color, var(--accent)); border-radius: 8px; } .task-card.done { opacity: .62; } .task-card.done .task-title { text-decoration: line-through; } .task-check { width: 1.15rem; height: 1.15rem; margin-top: .15rem; accent-color: var(--accent); } .task-title { font-weight: 750; } .task-meta { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .3rem; color: var(--muted); font-size: .78rem; } .chip { padding: .15rem .45rem; border-radius: 99px; background: var(--accent-soft); color: var(--accent); } .task-menu { display: flex; gap: .15rem; } .task-menu button { padding: .25rem .4rem; color: var(--muted); font-size: .78rem; } .description { margin-top: .65rem; overflow-wrap: anywhere; } .description img { max-width: 100%; border-radius: 5px; } .empty { width: min(100%, 480px); margin: 0 auto; padding: 3rem 1rem; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 8px; }
-.tag-filters { display: flex; flex-wrap: wrap; gap: .35rem; } .tag-filter { border-color: var(--tag-color, var(--line)); color: var(--tag-color, var(--accent)); font-size: .75rem; } .tag-filter.active { color: #fff; background: var(--accent); }
-.calendar { width: min(100%, 900px); margin: 0 auto; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; } .calendar-toolbar { display: flex; align-items: center; gap: .6rem; padding: .7rem 1rem; border-bottom: 1px solid var(--line); } .calendar-toolbar strong { flex: 1; text-align: center; } .cal-head, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); } .cal-head { color: var(--muted); font-size: .75rem; text-align: center; } .cal-head div { padding: .7rem .2rem; } .cal-cell { min-height: 100px; padding: .45rem; border-top: 1px solid var(--line); border-right: 1px solid var(--line); } .cal-cell.muted { color: var(--muted); background: var(--surface-alt); } .cal-cell.today { background: var(--accent-soft); } .cal-date { font-size: .8rem; font-weight: 750; } .cal-task { margin-top: .3rem; padding: .2rem .3rem; overflow: hidden; color: #fff; border-radius: 4px; font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
-.progress { height: 6px; margin-top: .55rem; overflow: hidden; background: var(--surface-alt); border-radius: 99px; } .progress i { display: block; height: 100%; background: var(--accent); } .subtasks { display: grid; gap: .35rem; margin-top: .7rem; } .subtask { flex-direction: row; align-items: center; gap: .5rem; font-size: .85rem; } .subtask input { width: auto; } .subtask button { margin-left: auto; padding: 0 .2rem; font-size: .75rem; } .notification { position: fixed; right: 1rem; bottom: 1rem; z-index: 5; padding: 1rem; color: #fff; background: #292b38; border-radius: 7px; } .notification strong, .notification div { display: block; margin-bottom: .5rem; } .notification button { margin-right: .3rem; color: #fff; background: #454856; }
-@media (max-width: 520px) { .cal-cell { min-height: 70px; padding: .3rem; } .cal-task { font-size: .65rem; } .cal-head div { padding: .5rem .1rem; } }
+.task-list {
+  display: grid;
+  gap: 0.75rem;
+  width: min(100%, 480px);
+  margin: 0 auto;
+}
+
+.task-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--task-color, var(--accent));
+  border-radius: var(--radius-sm);
+  transition: background-color var(--motion), border-color var(--motion),
+    opacity var(--motion), transform var(--motion);
+}
+
+.task-card:hover {
+  transform: translateY(-1px);
+}
+
+.task-card.done {
+  opacity: 0.62;
+}
+
+.task-title {
+  position: relative;
+  width: fit-content;
+  font-weight: 750;
+}
+
+.task-title::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0;
+  height: 2px;
+  content: "";
+  background: currentColor;
+  transition: width 200ms ease-out;
+}
+
+.task-card.done .task-title::after {
+  width: 100%;
+}
+
+.task-check {
+  appearance: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.15rem;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  transition: background-color var(--motion), border-color var(--motion),
+    transform var(--motion);
+}
+
+.task-check:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.task-check:checked::after {
+  display: block;
+  width: 0.3rem;
+  height: 0.55rem;
+  margin: 0.08rem auto 0;
+  border: solid var(--on-accent);
+  border-width: 0 2px 2px 0;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.task-title,
+.task-meta,
+.description {
+  overflow-wrap: anywhere;
+}
+
+.task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.chip {
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.task-menu {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.task-menu button {
+  padding: 0.25rem 0.4rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.description {
+  margin-top: 0.65rem;
+}
+
+.description img {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.empty {
+  width: min(100%, 480px);
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.tag-filter {
+  border-color: var(--tag-color, var(--line));
+  color: var(--tag-color, var(--accent));
+  font-size: 0.75rem;
+}
+
+.tag-filter.active {
+  color: var(--on-accent);
+  background: var(--accent);
+}
+
+.calendar {
+  width: min(100%, 900px);
+  margin: 0 auto;
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.calendar-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 320px;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.calendar-toolbar strong {
+  flex: 1;
+  text-align: center;
+}
+
+.cal-head,
+.cal-grid {
+  display: grid;
+  min-width: 560px;
+  grid-template-columns: repeat(7, minmax(80px, 1fr));
+}
+
+.cal-head {
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.cal-head div {
+  padding: 0.7rem 0.2rem;
+}
+
+.cal-cell {
+  min-height: 100px;
+  padding: 0.45rem;
+  border-top: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+.cal-cell.muted {
+  color: var(--muted);
+  background: var(--surface-alt);
+}
+
+.cal-cell.today {
+  background: var(--accent-soft);
+}
+
+.cal-date {
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.cal-task {
+  margin-top: 0.3rem;
+  padding: 0.2rem 0.3rem;
+  overflow: hidden;
+  color: var(--on-accent);
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress {
+  height: 6px;
+  margin-top: 0.55rem;
+  overflow: hidden;
+  background: var(--surface-alt);
+  border-radius: var(--radius-pill);
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width var(--motion);
+}
+
+.subtasks {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.7rem;
+}
+
+.subtask {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.subtask input {
+  width: auto;
+}
+
+.subtask button {
+  margin-left: auto;
+  padding: 0 0.2rem;
+  font-size: 0.75rem;
+}
+
+.notification {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 5;
+  padding: 1rem;
+  color: var(--on-accent);
+  background: var(--notification);
+  border-radius: var(--radius-sm);
+  transition: opacity var(--motion), transform var(--motion);
+}
+
+.notification strong,
+.notification div {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.notification button {
+  margin-right: 0.3rem;
+  color: var(--on-accent);
+  background: var(--notification-action);
+}
+
+@media (max-width: 520px) {
+  .calendar {
+    margin-inline: -0.25rem;
+  }
+
+  .calendar-toolbar {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .cal-cell {
+    min-height: 70px;
+    padding: 0.3rem;
+  }
+
+  .cal-task {
+    font-size: 0.65rem;
+  }
+
+  .cal-head div {
+    padding: 0.5rem 0.1rem;
+  }
+}
