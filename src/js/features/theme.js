@@ -1,1 +1,1 @@
-import {store} from '../core/state.js';export const applyTheme=()=>document.documentElement.dataset.theme=store.get().theme;export const toggleTheme=()=>store.setTheme(store.get().theme==='dark'?'light':'dark');
+export const resolvedTheme=theme=>theme==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):theme;

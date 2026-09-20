@@ -1,1 +1,1 @@
-export const createSubtask=(title='')=>({id:crypto.randomUUID(),title,done:false});
+export const createSubtask=(title='')=>({id:globalThis.crypto?.randomUUID?.()||`sub-${Date.now()}`,title:String(title).trim(),done:false});
