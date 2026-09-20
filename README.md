@@ -134,7 +134,7 @@ Open the local URL printed by `npx serve`.
 4. Under **Source**, choose **Deploy from a branch**.
 5. Select the `main` branch and `/ (root)` folder, then choose **Save**.
 6. Wait about one minute for the deployment.
-7. Open `https://MuhammadAhmadRaza.github.io/due-deck/`.
+7. Open `https://ahmad12583719.github.io/due-deck/`.
 
 ## Roadmap
 
