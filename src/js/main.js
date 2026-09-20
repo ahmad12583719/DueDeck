@@ -70,11 +70,31 @@ function tags() {
       })
       .join("");
 }
+function renderDateScroller() {
+  const root = $(".date-scroller");
+  if (!root) return;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const mondayOffset = (today.getDay() + 6) % 7;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - mondayOffset);
+  const month = today
+    .toLocaleString([], { month: "short" })
+    .toUpperCase();
+  const days = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + index);
+    const active = date.getTime() === today.getTime();
+    return `<span class="${active ? "selected" : ""}">${date.getDate()}<br><small>${date.toLocaleString([], { weekday: "short" })}</small></span>`;
+  }).join("");
+  root.innerHTML = `<span class="date-label">${month}</span>${days}`;
+}
 function render() {
   const s = store.get(),
     list = filteredTasks(s.tasks, s.filters, s.sort);
   const viewChanged = previousView && previousView !== s.view;
   document.documentElement.dataset.theme = resolvedTheme(s.theme);
+  renderDateScroller();
   renderProgress(s.tasks);
   tags();
   if (s.view === "calendar")

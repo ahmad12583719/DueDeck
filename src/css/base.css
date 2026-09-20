@@ -145,11 +145,27 @@ button svg,
   gap: 0.35rem;
 }
 
+.toolbar > button,
+.toolbar > .button {
+  display: inline-grid;
+  min-width: 36px;
+  height: 36px;
+  place-items: center;
+  padding: 0 0.65rem;
+  border-radius: var(--radius-md);
+}
+
 h1,
 h2,
 h3,
 p {
   margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--heading, var(--text));
 }
 
 h1 {

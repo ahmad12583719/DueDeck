@@ -9,14 +9,14 @@
 .task-card {
   position: relative;
   display: grid;
-  grid-template-columns: 1.15rem minmax(0, 1fr) auto;
-  gap: 0.75rem;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 16px;
   align-items: start;
   min-width: 0;
   padding: 1rem;
   background: var(--card-surface);
   border: 1px solid var(--line);
-  border-left: 3px solid var(--task-color, var(--accent));
+  border-left: 1px solid var(--line);
   border-radius: 18px;
   transition: background-color var(--motion), border-color var(--motion),
     box-shadow var(--motion), opacity var(--motion), transform var(--motion);
