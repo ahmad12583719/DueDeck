@@ -1,5 +1,100 @@
-import {storage} from './storage.js';import {events} from './events.js';import {createTask} from '../models/task.js';import {normalizeTags} from '../models/tag.js';
-const settings=storage.loadSettings();
-const state={tasks:storage.load(),view:settings.view,filters:{query:'',status:'all',deadline:'all',tag:'all'},sort:'deadline',theme:settings.theme,calendarDate:settings.calendarDate?new Date(settings.calendarDate):new Date()};
-const emit=()=>events.emit('change',state);const persist=()=>{storage.save(state.tasks);emit()};const saveSettings=()=>storage.saveSettings({theme:state.theme,view:state.view,calendarDate:state.calendarDate.toISOString()});
-export const store={get:()=>state,setView:v=>{state.view=v;saveSettings();emit()},setCalendarDate:d=>{state.calendarDate=new Date(d);saveSettings();emit()},setFilter:(k,v)=>{state.filters[k]=v;emit()},setSort:v=>{state.sort=v;emit()},setTheme:v=>{state.theme=v;saveSettings();emit()},add:d=>{state.tasks.push(createTask({...d,tags:normalizeTags(d.tags),order:Math.max(0,...state.tasks.map(t=>t.order||0))+1}));persist()},update:(id,d)=>{const i=state.tasks.findIndex(t=>t.id===id);if(i>=0){state.tasks[i]={...state.tasks[i],...d,tags:normalizeTags(d.tags??state.tasks[i].tags)};persist()}},remove:id=>{state.tasks=state.tasks.filter(t=>t.id!==id);persist()},toggle:id=>{const t=state.tasks.find(t=>t.id===id);if(t)store.update(id,{status:t.status==='done'?'todo':'done'})},reorder:(from,to)=>{const a=state.tasks.find(t=>t.id===from),b=state.tasks.find(t=>t.id===to);if(a&&b){const z=a.order;a.order=b.order;b.order=z;persist()}},import:raw=>{const tasks=Array.isArray(raw)?raw:raw?.tasks;if(tasks){state.tasks=tasks.map(createTask);if(raw?.settings?.theme)state.theme=raw.settings.theme;persist();saveSettings()}}};
+import { storage } from "./storage.js";
+import { events } from "./events.js";
+import { createTask } from "../models/task.js";
+import { normalizeTags } from "../models/tag.js";
+const settings = storage.loadSettings();
+const state = {
+  tasks: storage.load(),
+  view: settings.view,
+  filters: { query: "", status: "all", deadline: "all", tag: "all" },
+  sort: "deadline",
+  theme: settings.theme,
+  calendarDate: settings.calendarDate
+    ? new Date(settings.calendarDate)
+    : new Date(),
+};
+const emit = () => events.emit("change", state);
+const persist = () => {
+  storage.save(state.tasks);
+  emit();
+};
+const saveSettings = () =>
+  storage.saveSettings({
+    theme: state.theme,
+    view: state.view,
+    calendarDate: state.calendarDate.toISOString(),
+  });
+export const store = {
+  get: () => state,
+  setView: (v) => {
+    state.view = v;
+    saveSettings();
+    emit();
+  },
+  setCalendarDate: (d) => {
+    state.calendarDate = new Date(d);
+    saveSettings();
+    emit();
+  },
+  setFilter: (k, v) => {
+    state.filters[k] = v;
+    emit();
+  },
+  setSort: (v) => {
+    state.sort = v;
+    emit();
+  },
+  setTheme: (v) => {
+    state.theme = v;
+    saveSettings();
+    emit();
+  },
+  add: (d) => {
+    state.tasks.push(
+      createTask({
+        ...d,
+        tags: normalizeTags(d.tags),
+        order: Math.max(0, ...state.tasks.map((t) => t.order || 0)) + 1,
+      }),
+    );
+    persist();
+  },
+  update: (id, d) => {
+    const i = state.tasks.findIndex((t) => t.id === id);
+    if (i >= 0) {
+      state.tasks[i] = {
+        ...state.tasks[i],
+        ...d,
+        tags: normalizeTags(d.tags ?? state.tasks[i].tags),
+      };
+      persist();
+    }
+  },
+  remove: (id) => {
+    state.tasks = state.tasks.filter((t) => t.id !== id);
+    persist();
+  },
+  toggle: (id) => {
+    const t = state.tasks.find((t) => t.id === id);
+    if (t) store.update(id, { status: t.status === "done" ? "todo" : "done" });
+  },
+  reorder: (from, to) => {
+    const a = state.tasks.find((t) => t.id === from),
+      b = state.tasks.find((t) => t.id === to);
+    if (a && b) {
+      const z = a.order;
+      a.order = b.order;
+      b.order = z;
+      persist();
+    }
+  },
+  import: (raw) => {
+    const tasks = Array.isArray(raw) ? raw : raw?.tasks;
+    if (tasks) {
+      state.tasks = tasks.map(createTask);
+      if (raw?.settings?.theme) state.theme = raw.settings.theme;
+      persist();
+      saveSettings();
+    }
+  },
+};

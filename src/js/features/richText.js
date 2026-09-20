@@ -1,2 +1,31 @@
-export const formatDescription=s=>{const esc=x=>String(x||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));return esc(s).replace(/((?:https?:\/\/[^\s]+?\.(?:png|jpe?g|gif|webp)(?:\?[^\s]*)?|data:image\/(?:png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=]+))/gi,'<img src="$1" alt="Attached image" loading="lazy">').replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>').replace(/\n/g,'<br>')};
-export const imageDataUrl=file=>new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+export const formatDescription = (s) => {
+  const esc = (x) =>
+    String(x || "").replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+  return esc(s)
+    .replace(
+      /((?:https?:\/\/[^\s]+?\.(?:png|jpe?g|gif|webp)(?:\?[^\s]*)?|data:image\/(?:png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=]+))/gi,
+      '<img src="$1" alt="Attached image" loading="lazy">',
+    )
+    .replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" rel="noopener">$1</a>',
+    )
+    .replace(/\n/g, "<br>");
+};
+export const imageDataUrl = (file) =>
+  new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
