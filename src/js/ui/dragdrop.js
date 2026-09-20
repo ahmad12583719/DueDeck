@@ -1,8 +1,10 @@
 export const enableDragDrop = (root, onDrop) => {
   root.querySelectorAll("[draggable=true]").forEach((el) => {
-    el.addEventListener("dragstart", (e) =>
-      e.dataTransfer.setData("text/plain", el.dataset.id),
-    );
+    el.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", el.dataset.id);
+      el.classList.add("dragging");
+    });
+    el.addEventListener("dragend", () => el.classList.remove("dragging"));
     el.addEventListener("dragover", (e) => {
       e.preventDefault();
       el.classList.add("drag-over");

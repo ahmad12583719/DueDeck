@@ -70,3 +70,79 @@
     justify-content: flex-start;
   }
 }
+
+#app-view {
+  animation: view-crossfade var(--duration-base) var(--ease-emphasis) both;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+
+.views .nav {
+  position: relative;
+  transition: color var(--motion), background-color var(--motion),
+    transform var(--motion);
+}
+
+.views .nav::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  content: "";
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition: opacity var(--motion), transform var(--motion);
+}
+
+.views .nav.active::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.views .nav:hover {
+  transform: translateX(2px);
+}
+
+.dragging {
+  opacity: 0.55;
+  transform: scale(0.98);
+}
+
+.drag-over {
+  position: relative;
+}
+
+.drag-over::before {
+  position: absolute;
+  top: -0.45rem;
+  right: 0;
+  left: 0;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  content: "";
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  animation: drop-target var(--duration-fast) var(--ease-emphasis) both;
+}
+
+@keyframes view-crossfade {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drop-target {
+  from {
+    opacity: 0;
+    transform: scaleX(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
